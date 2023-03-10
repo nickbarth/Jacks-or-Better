@@ -5,14 +5,82 @@
     <title>Jacks or Better</title>
   </head>
   <body>
+    <img src="./assets/logo_white.png" height="140" width="140" />
+    <h1>Jacks or Better</h1>
+    <table border="1">
+      <tr>
+        <td>JACKS OR BETTER</td>
+        <td>TWO PAIR</td>
+        <td>3 OF A KIND</td>
+        <td>STRAIGHT</td>
+        <td>FLUSH</td>
+        <td>FULL HOUSE</td>
+        <td>4 OF A KIND</td>
+        <td>STRAIGHT FLUSH</td>
+        <td>ROYAL FLUSH</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>10</td>
+        <td>15</td>
+        <td>20</td>
+        <td>30</td>
+        <td>45</td>
+        <td>125</td>
+        <td>250</td>
+        <td>4000</td>
+      </tr>
+    </table>
+    <div id="game"></div>
     <script src="./dist/main.js"></script>
+    <p class="footer">
+      &copy; 2023 <a href="https://nicbarth.com">Nic Barth</a>
+    </p>
     <style>
+      html,
+      body {
+        background: #0412a6;
+        font-family: Noto, nagiri, sans-serif;
+      }
       canvas {
+        border: 0px solid #000;
         display: block;
-        margin: 0px auto;
+        margin: 0 auto;
         image-rendering: -moz-crisp-edges;
         image-rendering: -webkit-crisp-edges;
         image-rendering: pixelated;
+      }
+      h1 {
+        font-size: 40px;
+        color: #ffffff;
+        text-align: center;
+        border-top: 5px double #ffffff;
+        border-bottom: 5px double #ffffff;
+        display: table;
+        margin: 20px auto;
+        padding: 5px 0px;
+      }
+      img {
+        display: block;
+        margin: 0 auto;
+        filter: drop-shadow(0px 0px 0px #ffffff);
+      }
+      table {
+        margin: 20px auto;
+        font-size: 16px;
+        color: #ffffff;
+        border: 1px solid #fff;
+      }
+      td {
+        padding: 10px;
+        text-align: center;
+      }
+      a,
+      p.footer {
+        font-size: 12px;
+        color: #ffffff;
+        text-align: center;
+        margin: 20px 0;
       }
     </style>
   </body>
