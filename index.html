@@ -5,7 +5,7 @@
     <title>Jacks or Better</title>
   </head>
   <body>
-    <img src="./assets/logo_white.png" height="140" width="140" />
+    <img src="./assets/logo_white.png" height="120" width="120" />
     <h1>Jacks or Better</h1>
     <table border="1">
       <tr>
@@ -41,6 +41,9 @@
       body {
         background: #0412a6;
         font-family: Noto, nagiri, sans-serif;
+        margin: 0;
+        height: 100%;
+        overflow: hidden;
       }
       canvas {
         border: 0px solid #000;
@@ -70,6 +73,8 @@
         font-size: 16px;
         color: #ffffff;
         border: 1px solid #fff;
+        max-width: 850px;
+        border-collapse: collapse;
       }
       td {
         padding: 10px;

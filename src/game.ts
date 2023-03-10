@@ -1,5 +1,13 @@
 import "phaser";
 
+import { Button } from "./Button";
+import { Card } from "./Card";
+
+import { WinDisplay } from "./WinDisplay";
+import { BetDisplay } from "./BetDisplay";
+import { CreditsDisplay } from "./CreditsDisplay";
+import { DealButton } from "./DealButton";
+
 class JacksOrBetter extends Phaser.Scene {
   constructor() {
     super({ key: "JacksOrBetter" });
@@ -10,9 +18,27 @@ class JacksOrBetter extends Phaser.Scene {
       frameWidth: 125,
       frameHeight: 182,
     });
-    this.load.image("hold_button", "assets/buttons/button_hold.png");
-    this.load.image("cancel_button", "assets/buttons/button_cancel.png");
-    this.load.image("cardback", "assets/cards/small_cardback.png");
+    this.load.spritesheet("hold_button", "assets/buttons/hold_button.png", {
+      frameWidth: 130,
+      frameHeight: 50,
+    });
+    this.load.spritesheet("drop_button", "assets/buttons/drop_button.png", {
+      frameWidth: 130,
+      frameHeight: 50,
+    });
+    this.load.spritesheet("deal_button", "assets/buttons/deal_button.png", {
+      frameWidth: 130,
+      frameHeight: 50,
+    });
+    this.load.spritesheet("draw_button", "assets/buttons/draw_button.png", {
+      frameWidth: 130,
+      frameHeight: 50,
+    });
+    this.load.spritesheet("pass_button", "assets/buttons/pass_button.png", {
+      frameWidth: 130,
+      frameHeight: 50,
+    });
+    this.load.audio('click', ['assets/audio/click.mp3', 'assets/audio/click.ogg']);
   }
 
   create() {
@@ -25,43 +51,21 @@ class JacksOrBetter extends Phaser.Scene {
       fontSize: "24px",
     };
 
-    this.add.text(60, 0, "HELD", holdTextStyle);
-    this.add.image(120, 120, "cards", 0);
-    this.add.image(120, 260, "hold_button");
+    this.add.existing(new Card(this, 60, 0));
+    this.add.existing(new Card(this, 200, 0));
+    this.add.existing(new Card(this, 340, 0));
+    this.add.existing(new Card(this, 480, 0));
+    this.add.existing(new Card(this, 620, 0));
 
-    this.add.text(200, 0, "HELD", holdTextStyle);
-    this.add.image(260, 120, "cards", 1);
-    this.add.image(260, 260, "cancel_button");
+    const winDisplay = new WinDisplay(this, 120, 370);
+    const betDisplay = new BetDisplay(this, 260, 370);
+    const creditsDisplay = new CreditsDisplay(this, 470, 370);
 
-    this.add.text(340, 0, "HELD", holdTextStyle);
-    this.add.image(400, 120, "cards", 2);
-    this.add.image(400, 260, "hold_button");
+    this.add.existing(winDisplay);
+    this.add.existing(betDisplay);
+    this.add.existing(creditsDisplay);
 
-    this.add.text(480, 0, "HELD", holdTextStyle);
-    this.add.image(540, 120, "cards", 3);
-    this.add.image(540, 260, "hold_button");
-
-    this.add.text(620, 0, "HELD", holdTextStyle);
-    this.add.image(680, 120, "cardback");
-    this.add.image(680, 260, "hold_button");
-
-    var r1 = this.add.rectangle(120, 370, 125, 50);
-    r1.setStrokeStyle(3, 0xffffff);
-    this.add.text(60, 310, "WIN", holdTextStyle);
-    this.add.text(60, 355, "4000", holdTextStyle);
-
-    var r2 = this.add.rectangle(260, 370, 125, 50);
-    r2.setStrokeStyle(3, 0xffffff);
-    this.add.text(200, 310, "BET", holdTextStyle);
-    this.add.text(200, 355, "5", holdTextStyle);
-
-    var r3 = this.add.rectangle(470, 370, 260, 50);
-    r3.setStrokeStyle(3, 0xffffff);
-    this.add.text(400, 310, "CREDITS", holdTextStyle);
-    this.add.text(400, 355, "1000", holdTextStyle);
-
-    // DEAL Btn -> Draw Button
-    this.add.image(680, 370, "hold_button");
+    const betButton = new DealButton(this, 680, 370);
   }
 }
 
