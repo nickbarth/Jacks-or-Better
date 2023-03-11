@@ -9,5 +9,6 @@ export class BetDisplay extends GameObjects.Container {
     background.setStrokeStyle(3, 0xffffff);
     const display = scene.add.text(0, 0, "BET\n5", DISPLAY_STYLE).setOrigin(0.5);
     this.add([background, display]);
+    scene.add.existing(this);
   }
 }

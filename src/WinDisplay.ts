@@ -7,7 +7,10 @@ export class WinDisplay extends GameObjects.Container {
 
     const background = scene.add.rectangle(0, 0, 125, 50);
     background.setStrokeStyle(3, 0xffffff);
-    const display = scene.add.text(0, 0, "WIN\n4000", DISPLAY_STYLE).setOrigin(0.5);
+    const display = scene.add
+      .text(0, 0, "WIN\n4000", DISPLAY_STYLE)
+      .setOrigin(0.5);
     this.add([background, display]);
+    scene.add.existing(this);
   }
 }

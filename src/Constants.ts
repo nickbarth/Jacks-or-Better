@@ -17,3 +17,26 @@ export const CARD_SPRITESHEET = "cards";
 export const CARD_FRAME_WIDTH = 125;
 export const CARD_FRAME_HEIGHT = 182;
 export const CARD_BACK_IMAGE = "cardback";
+
+export enum Suit {
+  Clubs,
+  Diamonds,
+  Hearts,
+  Spades,
+}
+
+export enum Face {
+  Two,
+  Three,
+  Four,
+  Five,
+  Six,
+  Seven,
+  Eight,
+  Nine,
+  Ten,
+  Ace,
+  Jack,
+  Queen,
+  King,
+}

@@ -1,19 +1,25 @@
-import { GameObjects, Scene } from "phaser";
-import { CARD_SPRITESHEET, DISPLAY_STYLE } from "./Constants";
-import { Button } from "./Button";
+import { Suit, Face } from "./Constants";
 
-export class Card extends GameObjects.Container {
-  private _isHeld = false;
+export class Card {
+  private _suit: Suit;
+  private _face: Face;
 
-  constructor(
-    scene: Scene,
-    x: number,
-    y: number,
-  ) {
-    super(scene, x, y);
+  constructor(suit: Suit, face: Face) {
+    console.log("created", suit, face);
+    this._suit = suit;
+    this._face = face;
+  }
 
-    scene.add.text(x, y, "HELD", DISPLAY_STYLE);
-    scene.add.image(x+60, y+120, "cards", 52);
-    scene.add.existing(new Button(scene, x+60, y+260, "hold_button", () => {}));
+  public get suit(): Suit {
+    return this._suit;
+  }
+
+  public get face(): Face {
+    return this._face;
+  }
+
+  public get frame(): number {
+    console.log(this._face, this._suit, this._face + this._suit * 13);
+    return this._face + this._suit * 13;
   }
 }
