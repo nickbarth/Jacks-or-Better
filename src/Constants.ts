@@ -19,10 +19,10 @@ export enum GameState {
 }
 
 export enum Suit {
-  Clubs,
+  Spades,
   Diamonds,
   Hearts,
-  Spades,
+  Clubs,
 }
 
 export enum Face {

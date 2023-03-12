@@ -22,7 +22,6 @@ export class Hand {
   }
 
   public getPayout(): number {
-    console.log(this._cards);
     const counts = this.getCardCounts();
     const pairs = this.getPairs(counts);
     const threeOfAKind = this.getThreeOfAKind(counts);
@@ -49,7 +48,7 @@ export class Hand {
       return 15;
     } else if (pairs.length === 2) {
       return 10;
-    } else if (pairs.length === 1 && pairs[0] >= 11) {
+    } else if (pairs.length === 1 && (pairs[0] >= 11 || pairs[0] === 0)) {
       return 5;
     } else {
       return 0;
@@ -59,18 +58,18 @@ export class Hand {
   private getCardCounts(): Map<number, number> {
     const counts = new Map<number, number>();
     for (const card of this.cards) {
-      const value = card.value;
-      const count = counts.get(value) || 0;
-      counts.set(value, count + 1);
+      const face = card.face;
+      const count = counts.get(face) || 0;
+      counts.set(face, count + 1);
     }
     return counts;
   }
 
   private getPairs(counts: Map<number, number>): number[] {
     const pairs: number[] = [];
-    for (const [value, count] of counts.entries()) {
+    for (const [face, count] of counts.entries()) {
       if (count === 2) {
-        pairs.push(value);
+        pairs.push(face);
       }
     }
     return pairs;
@@ -85,25 +84,36 @@ export class Hand {
     return false;
   }
 
+  private getAceHighStraight(): boolean {
+    const faces = this.cards.map((card) => card.face);
+    return (
+      faces.includes(Face.Ace) &&
+      faces.includes(Face.King) &&
+      faces.includes(Face.Queen) &&
+      faces.includes(Face.Jack) &&
+      faces.includes(Face.Ten)
+    );
+  }
+
   private getStraight(): boolean {
-    const values = this.cards.map((card) => card.value);
-    values.sort((a, b) => a - b);
+    if (this.getAceHighStraight()) {
+      return true;
+    }
+
+    const faces = this.cards.map((card) => card.face);
+    faces.sort((a, b) => a - b);
     for (let i = 0; i < 4; i++) {
-      if (values[i] + 1 !== values[i + 1]) {
+      if (faces[i] + 1 !== faces[i + 1]) {
         return false;
       }
     }
+
     return true;
   }
 
   private getFlush(): boolean {
     const suits = this.cards.map((card) => card.suit);
-    for (let i = 0; i < 4; i++) {
-      if (suits[i] !== suits[i + 1]) {
-        return false;
-      }
-    }
-    return true;
+    return suits.every((suit) => suit === suits[0]);
   }
 
   private getFullHouse(counts: Map<number, number>): boolean {
@@ -129,26 +139,10 @@ export class Hand {
   }
 
   private getStraightFlush(): boolean {
-    const suits = this.cards.map((card) => card.suit);
-    const values = this.cards.map((card) => card.value);
-    values.sort((a, b) => a - b);
-    for (let i = 0; i < 4; i++) {
-      if (suits[i] !== suits[i + 1] || values[i] + 1 !== values[i + 1]) {
-        return false;
-      }
-    }
-    return true;
+    return this.getStraight() && this.getFlush();
   }
 
   private getRoyalFlush(): boolean {
-    const values = this.cards.map((card) => card.value);
-    const suits = this.cards.map((card) => card.suit);
-    const isFlush = suits.every((suit) => suit === suits[0]);
-    const hasAce = values.includes(Face.Ace);
-    const hasKing = values.includes(Face.King);
-    const hasQueen = values.includes(Face.Queen);
-    const hasJack = values.includes(Face.Jack);
-    const hasTen = values.includes(Face.Ten);
-    return isFlush && hasAce && hasKing && hasQueen && hasJack && hasTen;
+    return this.getAceHighStraight() && this.getFlush();
   }
 }

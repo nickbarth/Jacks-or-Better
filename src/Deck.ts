@@ -6,14 +6,11 @@ export class Deck {
 
   constructor() {
     this.cards = [];
-
     for (let suit = 0; suit < Object.keys(Suit).length / 2; suit++) {
       for (let face = 0; face < Object.keys(Face).length / 2; face++) {
         this.cards.push(new Card(suit, face));
       }
     }
-
-    this.shuffle();
   }
 
   public draw(): Card {

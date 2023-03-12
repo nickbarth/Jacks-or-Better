@@ -44,7 +44,7 @@ class JacksOrBetter extends Phaser.Scene {
 
   public handleDealCards() {
     this._deck = new Deck();
-    this._deck.shuffle();
+    // this._deck.shuffle();
     this._hand = new Hand();
     this.credits -= 5;
 
@@ -65,7 +65,6 @@ class JacksOrBetter extends Phaser.Scene {
     if (this._cards && this._hand && this._deck) {
       for (let i = 0; i < 5; i++) {
         if (!this._cards[i].isHeld) {
-          console.log(i);
           const card = this._deck.draw();
           this._hand.replaceCard(i, card);
           this._cards[i].setCard(card.frame);
