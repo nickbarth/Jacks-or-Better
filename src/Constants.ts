@@ -7,16 +7,18 @@ export const DISPLAY_STYLE = {
   fontSize: "20px",
 };
 
+export const BUTTON_SIZE = { frameWidth: 130, frameHeight: 50 };
 export const HOLD_BUTTON_SPRITESHEET = "hold_button";
 export const DROP_BUTTON_SPRITESHEET = "drop_button";
 export const DEAL_BUTTON_SPRITESHEET = "deal_button";
 export const DRAW_BUTTON_SPRITESHEET = "draw_button";
 export const PASS_BUTTON_SPRITESHEET = "pass_button";
 
+export const CARD_SIZE = { frameWidth: 125, frameHeight: 182 };
 export const CARD_SPRITESHEET = "cards";
-export const CARD_FRAME_WIDTH = 125;
-export const CARD_FRAME_HEIGHT = 182;
 export const CARD_BACK_IMAGE = "cardback";
+
+export const CLICK_SOUND = "click";
 
 export enum Suit {
   Clubs,
@@ -26,6 +28,7 @@ export enum Suit {
 }
 
 export enum Face {
+  Ace,
   Two,
   Three,
   Four,
@@ -35,7 +38,6 @@ export enum Face {
   Eight,
   Nine,
   Ten,
-  Ace,
   Jack,
   Queen,
   King,

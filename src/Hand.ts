@@ -15,7 +15,7 @@ export class Hand {
     return this._cards;
   }
 
-  public getScore(): number {
+  public getPayout(): number {
     const counts = this.getCardCounts();
     const pairs = this.getPairs(counts);
     const threeOfAKind = this.getThreeOfAKind(counts);

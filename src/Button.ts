@@ -1,4 +1,5 @@
 import { GameObjects, Scene, Sound } from "phaser";
+import { CLICK_SOUND } from "./Constants";
 
 export class Button extends GameObjects.Image {
   private readonly _callback: () => void;
@@ -15,7 +16,9 @@ export class Button extends GameObjects.Image {
     this._callback = callback.bind(scene);
     this.setInteractive({ cursor: "pointer" });
     this.on("pointerdown", this._callback);
-    this._clickSound = scene.sound.add("click") as Phaser.Sound.WebAudioSound;
+    this._clickSound = scene.sound.add(
+      CLICK_SOUND
+    ) as Phaser.Sound.WebAudioSound;
 
     this.on("pointerdown", () => {
       this.setFrame(2);

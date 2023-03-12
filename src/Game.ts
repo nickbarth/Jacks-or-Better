@@ -23,34 +23,7 @@ class JacksOrBetter extends Phaser.Scene {
   }
 
   preload() {
-    this.load.spritesheet("cards", "assets/cards/small_spritesheet.png", {
-      frameWidth: 125,
-      frameHeight: 182,
-    });
-    this.load.spritesheet("hold_button", "assets/buttons/hold_button.png", {
-      frameWidth: 130,
-      frameHeight: 50,
-    });
-    this.load.spritesheet("drop_button", "assets/buttons/drop_button.png", {
-      frameWidth: 130,
-      frameHeight: 50,
-    });
-    this.load.spritesheet("deal_button", "assets/buttons/deal_button.png", {
-      frameWidth: 130,
-      frameHeight: 50,
-    });
-    this.load.spritesheet("draw_button", "assets/buttons/draw_button.png", {
-      frameWidth: 130,
-      frameHeight: 50,
-    });
-    this.load.spritesheet("pass_button", "assets/buttons/pass_button.png", {
-      frameWidth: 130,
-      frameHeight: 50,
-    });
-    this.load.audio("click", [
-      "assets/audio/click.mp3",
-      "assets/audio/click.ogg",
-    ]);
+    AssetLoader.preload(this);
   }
 
   create() {
