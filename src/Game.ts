@@ -8,11 +8,12 @@ import { WinDisplay } from "./WinDisplay";
 import { BetDisplay } from "./BetDisplay";
 import { CreditsDisplay } from "./CreditsDisplay";
 import { DealDisplay } from "./DealDisplay";
+import { RankDisplay } from "./RankDisplay";
 
 import { Deck } from "./Deck";
 import { Hand } from "./Hand";
 import { Card } from "./Card";
-import { GameState, Suit, Face } from "./Constants";
+import { Payout, GameState, HandRank,  Suit, Face } from "./Constants";
 
 class JacksOrBetter extends Phaser.Scene {
   private _cards?: CardComponent[];
@@ -23,6 +24,7 @@ class JacksOrBetter extends Phaser.Scene {
   private _betDisplay?: BetDisplay;
   private _winDisplay?: WinDisplay;
   private _dealDisplay?: DealDisplay;
+  private _rankDisplay?: RankDisplay;
   private _credits: number = 1000;
 
   constructor() {
@@ -44,7 +46,7 @@ class JacksOrBetter extends Phaser.Scene {
 
   public handleDealCards() {
     this._deck = new Deck();
-    // this._deck.shuffle();
+    this._deck.shuffle();
     this._hand = new Hand();
     this.credits -= 5;
 
@@ -59,6 +61,7 @@ class JacksOrBetter extends Phaser.Scene {
 
     this._winDisplay?.setWin(0);
     this._dealDisplay?.setGameState(GameState.Pass);
+    this._rankDisplay?.setRank();
   }
 
   public handleDrawCards() {
@@ -70,19 +73,25 @@ class JacksOrBetter extends Phaser.Scene {
           this._cards[i].setCard(card.frame);
         }
       }
-      const payout = this._hand.getPayout();
-      this.credits += payout;
-      this._winDisplay?.setWin(payout);
+      const handrank = this._hand.getHandRank();
+      this.credits += Payout[handrank];
+      this._winDisplay?.setWin(Payout[handrank]);
       this._dealDisplay?.setGameState(GameState.Deal);
+      this._rankDisplay?.setRank(handrank);
     }
   }
 
   public handlePass() {
-    if (this._hand) {
-      const payout = this._hand.getPayout();
-      this.credits += payout;
-      this._winDisplay?.setWin(payout);
+    if (this._hand && this._cards) {
+      const handrank = this._hand.getHandRank();
+      this.credits += Payout[handrank];
+      this._winDisplay?.setWin(Payout[handrank]);
       this._dealDisplay?.setGameState(GameState.Deal);
+      this._rankDisplay?.setRank(handrank);
+
+      for (let i = 0; i < 5; i++) {
+        this._cards[i]?.setHoldable(false);
+      }
     }
   }
 
@@ -126,6 +135,7 @@ class JacksOrBetter extends Phaser.Scene {
     this._winDisplay = new WinDisplay(this, 120, 370);
     this._betDisplay = new BetDisplay(this, 260, 370);
     this._creditsDisplay = new CreditsDisplay(this, 470, 370, this._credits);
+    this._rankDisplay = new RankDisplay(this, 400, 315);
 
     this._dealDisplay = new DealDisplay(
       this,

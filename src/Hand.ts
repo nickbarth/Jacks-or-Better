@@ -1,6 +1,5 @@
 import { Card } from "./Card";
-
-import { Suit, Face } from "./Constants";
+import { HandRank, Suit, Face } from "./Constants";
 
 export class Hand {
   private _cards: Card[];
@@ -21,7 +20,7 @@ export class Hand {
     this._cards[index] = card;
   }
 
-  public getPayout(): number {
+  public getHandRank(): HandRank {
     const counts = this.getCardCounts();
     const pairs = this.getPairs(counts);
     const threeOfAKind = this.getThreeOfAKind(counts);
@@ -33,25 +32,25 @@ export class Hand {
     const royalFlush = this.getRoyalFlush();
 
     if (royalFlush) {
-      return 4000;
+      return HandRank.RoyalFlush;
     } else if (straightFlush) {
-      return 250;
+      return HandRank.StraightFlush;
     } else if (fourOfAKind) {
-      return 125;
+      return HandRank.FourOfAKind;
     } else if (fullHouse) {
-      return 45;
+      return HandRank.FullHouse;
     } else if (flush) {
-      return 30;
+      return HandRank.Flush;
     } else if (straight) {
-      return 20;
+      return HandRank.Straight;
     } else if (threeOfAKind) {
-      return 15;
+      return HandRank.ThreeOfAKind;
     } else if (pairs.length === 2) {
-      return 10;
+      return HandRank.TwoPair;
     } else if (pairs.length === 1 && (pairs[0] >= 11 || pairs[0] === 0)) {
-      return 5;
+      return HandRank.JacksOrBetter;
     } else {
-      return 0;
+      return HandRank.Lose;
     }
   }
 

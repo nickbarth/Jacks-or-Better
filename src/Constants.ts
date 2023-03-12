@@ -18,6 +18,32 @@ export enum GameState {
   Pass,
 }
 
+export enum HandRank {
+  RoyalFlush = "ROYAL FLUSH",
+  StraightFlush = "STRAIGHT FLUSH",
+  FourOfAKind = "FOUR OF A KIND",
+  FullHouse = "FULL HOUSE",
+  Flush = "FLUSH",
+  Straight = "STRAIGHT",
+  ThreeOfAKind = "THREE OF A KIND",
+  TwoPair = "TWO PAIR",
+  JacksOrBetter = "JACK OR BETTER",
+  Lose = "",
+}
+
+export const Payout = {
+  [HandRank.RoyalFlush]: 4000,
+  [HandRank.StraightFlush]: 250,
+  [HandRank.FourOfAKind]: 125,
+  [HandRank.FullHouse]: 45,
+  [HandRank.Flush]: 30,
+  [HandRank.Straight]: 20,
+  [HandRank.ThreeOfAKind]: 15,
+  [HandRank.TwoPair]: 10,
+  [HandRank.JacksOrBetter]: 5,
+  [HandRank.Lose]: 0,
+}
+
 export enum Suit {
   Spades,
   Diamonds,
