@@ -13,11 +13,8 @@ import { Card } from "./Card";
 import { Suit, Face } from "./Constants";
 
 class JacksOrBetter extends Phaser.Scene {
-  private _card1?: CardComponent;
-  private _card2?: CardComponent;
-  private _card3?: CardComponent;
-  private _card4?: CardComponent;
-  private _card5?: CardComponent;
+  private _cards: CardComponent[] = [];
+  private _deck: Card[] = [];
 
   constructor() {
     super({ key: "JacksOrBetter" });
@@ -28,12 +25,13 @@ class JacksOrBetter extends Phaser.Scene {
   }
 
   create() {
-    const card = new Card(Suit.Clubs, Face.Ace);
-    this._card1 = new CardComponent(this, 60, 0, card.frame);
-    this._card2 = new CardComponent(this, 200, 0, 52);
-    this._card3 = new CardComponent(this, 340, 0, 52);
-    this._card4 = new CardComponent(this, 480, 0, 52);
-    this._card5 = new CardComponent(this, 620, 0, 51);
+    this._cards = [
+      new CardComponent(this, 60, 0, 52),
+      new CardComponent(this, 200, 0, 52),
+      new CardComponent(this, 340, 0, 52),
+      new CardComponent(this, 480, 0, 52),
+      new CardComponent(this, 620, 0, 52),
+    ];
 
     const winDisplay = new WinDisplay(this, 120, 370);
     const betDisplay = new BetDisplay(this, 260, 370);

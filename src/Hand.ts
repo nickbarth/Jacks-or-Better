@@ -1,5 +1,7 @@
 import { Card } from "./Card";
 
+import { Suit, Face } from "./Constants";
+
 export class Hand {
   private _cards: Card[];
 
@@ -52,7 +54,7 @@ export class Hand {
   private getCardCounts(): Map<number, number> {
     const counts = new Map<number, number>();
     for (const card of this.cards) {
-      const value = card.getValue();
+      const value = card.value;
       const count = counts.get(value) || 0;
       counts.set(value, count + 1);
     }
@@ -79,7 +81,7 @@ export class Hand {
   }
 
   private getStraight(): boolean {
-    const values = this.cards.map((card) => card.getValue());
+    const values = this.cards.map((card) => card.value);
     values.sort((a, b) => a - b);
     for (let i = 0; i < 4; i++) {
       if (values[i] + 1 !== values[i + 1]) {
@@ -90,7 +92,7 @@ export class Hand {
   }
 
   private getFlush(): boolean {
-    const suits = this.cards.map((card) => card.getSuit());
+    const suits = this.cards.map((card) => card.suit);
     for (let i = 0; i < 4; i++) {
       if (suits[i] !== suits[i + 1]) {
         return false;
@@ -122,8 +124,8 @@ export class Hand {
   }
 
   private getStraightFlush(): boolean {
-    const suits = this.cards.map((card) => card.getSuit());
-    const values = this.cards.map((card) => card.getValue());
+    const suits = this.cards.map((card) => card.suit);
+    const values = this.cards.map((card) => card.value);
     values.sort((a, b) => a - b);
     for (let i = 0; i < 4; i++) {
       if (suits[i] !== suits[i + 1] || values[i] + 1 !== values[i + 1]) {
@@ -134,8 +136,8 @@ export class Hand {
   }
 
   private getRoyalFlush(): boolean {
-    const values = this.cards.map((card) => card.getValue());
-    const suits = this.cards.map((card) => card.getSuit());
+    const values = this.cards.map((card) => card.value);
+    const suits = this.cards.map((card) => card.suit);
     const isFlush = suits.every((suit) => suit === suits[0]);
     const hasAce = values.includes(Face.Ace);
     const hasKing = values.includes(Face.King);

@@ -1,4 +1,5 @@
-import { Card, Suit, Face } from "./Card";
+import { Card } from "./Card";
+import { Suit, Face } from "./Constants";
 
 export class Deck {
   private cards: Card[];
