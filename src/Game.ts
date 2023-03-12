@@ -9,12 +9,15 @@ import { BetDisplay } from "./BetDisplay";
 import { CreditsDisplay } from "./CreditsDisplay";
 import { DealButton } from "./DealButton";
 
+import { Deck } from "./Deck";
+import { Hand } from "./Hand";
 import { Card } from "./Card";
 import { Suit, Face } from "./Constants";
 
 class JacksOrBetter extends Phaser.Scene {
-  private _cards: CardComponent[] = [];
-  private _deck: Card[] = [];
+  private _cards?: CardComponent[];
+  private _deck?: Deck;
+  private _hand?: Hand;
 
   constructor() {
     super({ key: "JacksOrBetter" });
@@ -22,6 +25,18 @@ class JacksOrBetter extends Phaser.Scene {
 
   preload() {
     AssetLoader.preload(this);
+  }
+
+  public handleDealCards() {
+    this._deck = new Deck();
+    this._deck.shuffle();
+    this._hand = new Hand();
+
+    for (let i = 0; i < 5; i++) {
+      const card = this._deck.draw();
+      this._hand.addCard(card);
+      this._cards && this._cards[i]?.setCard(card.frame);
+    }
   }
 
   create() {
@@ -37,7 +52,12 @@ class JacksOrBetter extends Phaser.Scene {
     const betDisplay = new BetDisplay(this, 260, 370);
     const creditsDisplay = new CreditsDisplay(this, 470, 370);
 
-    const betButton = new DealButton(this, 680, 370);
+    const betButton = new DealButton(
+      this,
+      680,
+      370,
+      this.handleDealCards.bind(this)
+    );
   }
 }
 
