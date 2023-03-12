@@ -22,7 +22,8 @@ class JacksOrBetter extends Phaser.Scene {
   private _creditsDisplay?: CreditsDisplay;
   private _betDisplay?: BetDisplay;
   private _winDisplay?: WinDisplay;
-  private _credits: number = 1101;
+  private _dealDisplay?: DealDisplay;
+  private _credits: number = 1000;
 
   constructor() {
     super({ key: "JacksOrBetter" });
@@ -50,8 +51,13 @@ class JacksOrBetter extends Phaser.Scene {
     for (let i = 0; i < 5; i++) {
       const card = this._deck.draw();
       this._hand.addCard(card);
-      this._cards && this._cards[i]?.setCard(card.frame);
+      if (this._cards) {
+        this._cards[i]?.setCard(card.frame);
+        this._cards[i]?.setHoldable(true);
+      }
     }
+
+    this._dealDisplay?.setGameState(GameState.Pass);
   }
 
   public handleDrawCards() {
@@ -63,6 +69,24 @@ class JacksOrBetter extends Phaser.Scene {
         this._cards[i]?.setCard(card.frame);
       }
     }
+  }
+
+  public handlePassCards() {}
+
+  public handleHoldCard(index: number) {
+    if (this._cards) {
+      this._cards[index].isHeld = !this._cards[index].isHeld;
+    }
+  }
+
+  public handleDropCard(index: number) {
+    if (this._cards) {
+      this._cards[index].isHeld = false;
+    }
+  }
+
+  public handleSkip() {
+    this._gameState = GameState.Betting;
   }
 
   create() {
@@ -78,11 +102,13 @@ class JacksOrBetter extends Phaser.Scene {
     this._betDisplay = new BetDisplay(this, 260, 370);
     this._creditsDisplay = new CreditsDisplay(this, 470, 370, this._credits);
 
-    const dealDisplay = new DealDisplay(
+    this._dealDisplay = new DealDisplay(
       this,
       680,
       370,
-      this.handleDealCards.bind(this)
+      this.handleDealCards.bind(this),
+      this.handleDrawCards.bind(this),
+      this.handlePassCards.bind(this)
     );
   }
 }

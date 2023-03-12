@@ -72,4 +72,18 @@ export class CardComponent extends GameObjects.Container {
   public get isHeld(): boolean {
     return this._isHeld;
   }
+
+  public setHoldable(isHoldable: boolean): void {
+    if (isHoldable) {
+      this._isHeld = false;
+      this._heldLabel.visible = false;
+      this._holdButton.visible = true;
+      this._dropButton.visible = false;
+    } else {
+      this._isHeld = false;
+      this._heldLabel.visible = false;
+      this._holdButton.visible = false;
+      this._dropButton.visible = false;
+    }
+  }
 }

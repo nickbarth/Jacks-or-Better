@@ -36,5 +36,7 @@ export class Button extends GameObjects.Image {
     this.on("pointerout", () => {
       this.setFrame(0);
     });
+
+    scene.add.existing(this);
   }
 }
