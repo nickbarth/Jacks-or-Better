@@ -1,12 +1,3 @@
-export const DISPLAY_STYLE = {
-  fontFamily: "Noto, nagiri, sans-serif",
-  color: "#ffffff",
-  fixedWidth: 125,
-  align: "center",
-  fontStyle: "bold",
-  fontSize: "20px",
-};
-
 export const BUTTON_SIZE = { frameWidth: 130, frameHeight: 50 };
 export const HOLD_BUTTON_SPRITESHEET = "hold_button";
 export const DROP_BUTTON_SPRITESHEET = "drop_button";
@@ -19,6 +10,13 @@ export const CARD_SPRITESHEET = "cards";
 export const CARD_BACK_IMAGE = "cardback";
 
 export const CLICK_SOUND = "click";
+
+export enum GameState {
+  Betting,
+  Deal,
+  Draw,
+  Pass,
+}
 
 export enum Suit {
   Clubs,
@@ -42,3 +40,12 @@ export enum Face {
   Queen,
   King,
 }
+
+export const DISPLAY_STYLE = {
+  fontFamily: "Noto, nagiri, sans-serif",
+  color: "#ffffff",
+  fixedWidth: 125,
+  align: "center",
+  fontStyle: "bold",
+  fontSize: "20px",
+};

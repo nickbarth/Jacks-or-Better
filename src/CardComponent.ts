@@ -17,7 +17,6 @@ export class CardComponent extends GameObjects.Container {
 
   constructor(scene: Scene, x: number, y: number, card: number) {
     super(scene, x, y);
-
     this._scene = scene;
     this._heldLabel = scene.add.text(x, y, "HELD", DISPLAY_STYLE);
     this._heldLabel.visible = this.isHeld;
@@ -38,6 +37,7 @@ export class CardComponent extends GameObjects.Container {
     );
     scene.add.existing(this._holdButton);
     scene.add.existing(this._dropButton);
+    this._holdButton.visible = false;
     this._dropButton.visible = false;
   }
 

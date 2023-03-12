@@ -7,17 +7,22 @@ import { CardComponent } from "./CardComponent";
 import { WinDisplay } from "./WinDisplay";
 import { BetDisplay } from "./BetDisplay";
 import { CreditsDisplay } from "./CreditsDisplay";
-import { DealButton } from "./DealButton";
+import { DealDisplay } from "./DealDisplay";
 
 import { Deck } from "./Deck";
 import { Hand } from "./Hand";
 import { Card } from "./Card";
-import { Suit, Face } from "./Constants";
+import { GameState, Suit, Face } from "./Constants";
 
 class JacksOrBetter extends Phaser.Scene {
   private _cards?: CardComponent[];
   private _deck?: Deck;
   private _hand?: Hand;
+  private _gameState: GameState = GameState.Betting;
+  private _creditsDisplay?: CreditsDisplay;
+  private _betDisplay?: BetDisplay;
+  private _winDisplay?: WinDisplay;
+  private _credits: number = 1101;
 
   constructor() {
     super({ key: "JacksOrBetter" });
@@ -27,15 +32,36 @@ class JacksOrBetter extends Phaser.Scene {
     AssetLoader.preload(this);
   }
 
+  public get credits(): number {
+    return this._credits;
+  }
+
+  public set credits(credits: number) {
+    this._credits = credits;
+    this._creditsDisplay?.setCredits(this._credits);
+  }
+
   public handleDealCards() {
     this._deck = new Deck();
     this._deck.shuffle();
     this._hand = new Hand();
+    this.credits -= 5;
 
     for (let i = 0; i < 5; i++) {
       const card = this._deck.draw();
       this._hand.addCard(card);
       this._cards && this._cards[i]?.setCard(card.frame);
+    }
+  }
+
+  public handleDrawCards() {
+    for (let i = 0; i < 5; i++) {
+      if (this._cards && this._hand && this._deck && this._cards[i].isHeld) {
+        const card = this._deck.draw();
+        this._hand.removeCard(i);
+        this._hand.addCard(card);
+        this._cards[i]?.setCard(card.frame);
+      }
     }
   }
 
@@ -48,11 +74,11 @@ class JacksOrBetter extends Phaser.Scene {
       new CardComponent(this, 620, 0, 52),
     ];
 
-    const winDisplay = new WinDisplay(this, 120, 370);
-    const betDisplay = new BetDisplay(this, 260, 370);
-    const creditsDisplay = new CreditsDisplay(this, 470, 370);
+    this._winDisplay = new WinDisplay(this, 120, 370);
+    this._betDisplay = new BetDisplay(this, 260, 370);
+    this._creditsDisplay = new CreditsDisplay(this, 470, 370, this._credits);
 
-    const betButton = new DealButton(
+    const dealDisplay = new DealDisplay(
       this,
       680,
       370,

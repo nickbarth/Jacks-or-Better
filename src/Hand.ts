@@ -17,6 +17,10 @@ export class Hand {
     return this._cards;
   }
 
+  public removeCard(index: number): void {
+    this._cards.splice(index, 1);
+  }
+
   public getPayout(): number {
     const counts = this.getCardCounts();
     const pairs = this.getPairs(counts);
