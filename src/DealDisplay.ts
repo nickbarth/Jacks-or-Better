@@ -18,7 +18,7 @@ export class DealDisplay extends GameObjects.Container {
     y: number,
     handleDealCards: () => void,
     handleDrawCards: () => void,
-    handlePassCards: () => void
+    handlePass: () => void
   ) {
     super(scene, x, y);
 
@@ -43,7 +43,7 @@ export class DealDisplay extends GameObjects.Container {
       x,
       y,
       PASS_BUTTON_SPRITESHEET,
-      handlePassCards
+      handlePass
     );
 
     this._dealButton.visible = true;

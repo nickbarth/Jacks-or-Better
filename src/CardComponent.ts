@@ -8,32 +8,46 @@ import {
 import { Button } from "./Button";
 
 export class CardComponent extends GameObjects.Container {
+  private _index;
   private _isHeld = false;
   private _heldLabel: GameObjects.Text;
   private _holdButton: Button;
   private _dropButton: Button;
   private _card: GameObjects.Image;
   private _scene: Scene;
+  private _handleHold: (index: number) => void;
+  private _handleDrop: (index: number) => void;
 
-  constructor(scene: Scene, x: number, y: number, card: number) {
+  constructor(
+    scene: Scene,
+    index: number,
+    x: number,
+    y: number,
+    card: number,
+    handleHold: (index: number) => void,
+    handleDrop: (index: number) => void
+  ) {
     super(scene, x, y);
+    this._index = index;
     this._scene = scene;
+    this._handleHold = handleHold;
+    this._handleDrop = handleDrop;
     this._heldLabel = scene.add.text(x, y, "HELD", DISPLAY_STYLE);
-    this._heldLabel.visible = this.isHeld;
+    this._heldLabel.visible = false;
     this._card = scene.add.image(x + 60, y + 120, CARD_SPRITESHEET, card);
     this._holdButton = new Button(
       scene,
       x + 60,
       y + 260,
       HOLD_BUTTON_SPRITESHEET,
-      () => (this.isHeld = true)
+      () => this._handleHold(this._index)
     );
     this._dropButton = new Button(
       scene,
       x + 60,
       y + 260,
       DROP_BUTTON_SPRITESHEET,
-      () => (this.isHeld = false)
+      () => this._handleDrop(this._index)
     );
     scene.add.existing(this._holdButton);
     scene.add.existing(this._dropButton);

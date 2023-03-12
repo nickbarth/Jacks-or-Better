@@ -57,25 +57,40 @@ class JacksOrBetter extends Phaser.Scene {
       }
     }
 
+    this._winDisplay?.setWin(0);
     this._dealDisplay?.setGameState(GameState.Pass);
   }
 
   public handleDrawCards() {
-    for (let i = 0; i < 5; i++) {
-      if (this._cards && this._hand && this._deck && this._cards[i].isHeld) {
-        const card = this._deck.draw();
-        this._hand.removeCard(i);
-        this._hand.addCard(card);
-        this._cards[i]?.setCard(card.frame);
+    if (this._cards && this._hand && this._deck) {
+      for (let i = 0; i < 5; i++) {
+        if (!this._cards[i].isHeld) {
+          console.log(i);
+          const card = this._deck.draw();
+          this._hand.replaceCard(i, card);
+          this._cards[i].setCard(card.frame);
+        }
       }
+      const payout = this._hand.getPayout();
+      this.credits += payout;
+      this._winDisplay?.setWin(payout);
+      this._dealDisplay?.setGameState(GameState.Deal);
     }
   }
 
-  public handlePassCards() {}
+  public handlePass() {
+    if (this._hand) {
+      const payout = this._hand.getPayout();
+      this.credits += payout;
+      this._winDisplay?.setWin(payout);
+      this._dealDisplay?.setGameState(GameState.Deal);
+    }
+  }
 
   public handleHoldCard(index: number) {
     if (this._cards) {
-      this._cards[index].isHeld = !this._cards[index].isHeld;
+      this._cards[index].isHeld = true;
+      this._dealDisplay?.setGameState(GameState.Draw);
     }
   }
 
@@ -90,13 +105,24 @@ class JacksOrBetter extends Phaser.Scene {
   }
 
   create() {
-    this._cards = [
-      new CardComponent(this, 60, 0, 52),
-      new CardComponent(this, 200, 0, 52),
-      new CardComponent(this, 340, 0, 52),
-      new CardComponent(this, 480, 0, 52),
-      new CardComponent(this, 620, 0, 52),
-    ];
+    this._cards = [];
+    const cardX = 60;
+    const cardY = 0;
+    const cardSpacing = 140;
+
+    for (let i = 0; i < 5; i++) {
+      const cardComponent = new CardComponent(
+        this,
+        i,
+        cardX + cardSpacing * i,
+        cardY,
+        52,
+        this.handleHoldCard.bind(this),
+        this.handleDropCard.bind(this)
+      );
+
+      this._cards.push(cardComponent);
+    }
 
     this._winDisplay = new WinDisplay(this, 120, 370);
     this._betDisplay = new BetDisplay(this, 260, 370);
@@ -108,7 +134,7 @@ class JacksOrBetter extends Phaser.Scene {
       370,
       this.handleDealCards.bind(this),
       this.handleDrawCards.bind(this),
-      this.handlePassCards.bind(this)
+      this.handlePass.bind(this)
     );
   }
 }

@@ -17,11 +17,12 @@ export class Hand {
     return this._cards;
   }
 
-  public removeCard(index: number): void {
-    this._cards.splice(index, 1);
+  public replaceCard(index: number, card: Card): void {
+    this._cards[index] = card;
   }
 
   public getPayout(): number {
+    console.log(this._cards);
     const counts = this.getCardCounts();
     const pairs = this.getPairs(counts);
     const threeOfAKind = this.getThreeOfAKind(counts);
