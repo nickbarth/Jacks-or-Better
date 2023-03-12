@@ -1,5 +1,6 @@
 import "phaser";
 
+import { AssetLoader } from "./AssetLoader";
 import { Button } from "./Button";
 
 import { CardComponent } from "./CardComponent";

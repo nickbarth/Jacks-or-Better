@@ -15,37 +15,37 @@ import {
 
 export class AssetLoader {
   public static preload(scene: Scene): void {
-    this.load.spritesheet(
+    scene.load.spritesheet(
       CARD_SPRITESHEET,
       "assets/cards/spritesheet.png",
       CARD_SIZE
     );
-    this.load.spritesheet(
+    scene.load.spritesheet(
       HOLD_BUTTON_SPRITESHEET,
       "assets/buttons/hold_button.png",
       BUTTON_SIZE
     );
-    this.load.spritesheet(
+    scene.load.spritesheet(
       DROP_BUTTON_SPRITESHEET,
       "assets/buttons/drop_button.png",
       BUTTON_SIZE
     );
-    this.load.spritesheet(
+    scene.load.spritesheet(
       DEAL_BUTTON_SPRITESHEET,
       "assets/buttons/deal_button.png",
       BUTTON_SIZE
     );
-    this.load.spritesheet(
+    scene.load.spritesheet(
       DRAW_BUTTON_SPRITESHEET,
       "assets/buttons/draw_button.png",
       BUTTON_SIZE
     );
-    this.load.spritesheet(
+    scene.load.spritesheet(
       PASS_BUTTON_SPRITESHEET,
       "assets/buttons/pass_button.png",
       BUTTON_SIZE
     );
-    this.load.audio(CLICK_SOUND, [
+    scene.load.audio(CLICK_SOUND, [
       "assets/audio/click.mp3",
       "assets/audio/click.ogg",
     ]);
