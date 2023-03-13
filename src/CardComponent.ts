@@ -51,7 +51,7 @@ export class CardComponent extends GameObjects.Container {
     );
     scene.add.existing(this._holdButton);
     scene.add.existing(this._dropButton);
-    this._holdButton.visible = true;
+    this._holdButton.visible = false;
     this._dropButton.visible = false;
   }
 
