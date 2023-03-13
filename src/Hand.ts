@@ -50,7 +50,7 @@ export class Hand {
     } else if (pairs.length === 1 && (pairs[0] >= 11 || pairs[0] === 0)) {
       return HandRank.JacksOrBetter;
     } else {
-      return HandRank.Lose;
+      return HandRank.Loss;
     }
   }
 

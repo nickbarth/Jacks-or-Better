@@ -8,8 +8,8 @@ import {
   DROP_BUTTON_SPRITESHEET,
   DEAL_BUTTON_SPRITESHEET,
   DRAW_BUTTON_SPRITESHEET,
-  PASS_BUTTON_SPRITESHEET,
   BUTTON_SIZE,
+  BELL_SOUND,
   CLICK_SOUND,
 } from "./Constants";
 
@@ -40,14 +40,13 @@ export class AssetLoader {
       "assets/buttons/draw_button.png",
       BUTTON_SIZE
     );
-    scene.load.spritesheet(
-      PASS_BUTTON_SPRITESHEET,
-      "assets/buttons/pass_button.png",
-      BUTTON_SIZE
-    );
     scene.load.audio(CLICK_SOUND, [
       "assets/audio/click.mp3",
       "assets/audio/click.ogg",
+    ]);
+    scene.load.audio(BELL_SOUND, [
+      "assets/audio/bell.mp3",
+      "assets/audio/bell.ogg",
     ]);
   }
 }

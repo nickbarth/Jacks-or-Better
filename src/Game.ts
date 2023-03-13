@@ -13,19 +13,19 @@ import { RankDisplay } from "./RankDisplay";
 import { Deck } from "./Deck";
 import { Hand } from "./Hand";
 import { Card } from "./Card";
-import { Payout, GameState, HandRank,  Suit, Face } from "./Constants";
+import { Payout, HandRank, Suit, Face } from "./Constants";
 
 class JacksOrBetter extends Phaser.Scene {
   private _cards?: CardComponent[];
   private _deck?: Deck;
   private _hand?: Hand;
-  private _gameState: GameState = GameState.Betting;
   private _creditsDisplay?: CreditsDisplay;
   private _betDisplay?: BetDisplay;
   private _winDisplay?: WinDisplay;
   private _dealDisplay?: DealDisplay;
   private _rankDisplay?: RankDisplay;
   private _credits: number = 1000;
+  private _bellSound?: Phaser.Sound.WebAudioSound;
 
   constructor() {
     super({ key: "JacksOrBetter" });
@@ -46,7 +46,7 @@ class JacksOrBetter extends Phaser.Scene {
 
   public handleDealCards() {
     this._deck = new Deck();
-    this._deck.shuffle();
+    // this._deck.shuffle();
     this._hand = new Hand();
     this.credits -= 5;
 
@@ -60,8 +60,8 @@ class JacksOrBetter extends Phaser.Scene {
     }
 
     this._winDisplay?.setWin(0);
-    this._dealDisplay?.setGameState(GameState.Pass);
-    this._rankDisplay?.setRank();
+    this._dealDisplay?.setDraw();
+    this._rankDisplay?.setRank("");
   }
 
   public handleDrawCards() {
@@ -76,21 +76,15 @@ class JacksOrBetter extends Phaser.Scene {
       const handrank = this._hand.getHandRank();
       this.credits += Payout[handrank];
       this._winDisplay?.setWin(Payout[handrank]);
-      this._dealDisplay?.setGameState(GameState.Deal);
-      this._rankDisplay?.setRank(handrank);
-    }
-  }
-
-  public handlePass() {
-    if (this._hand && this._cards) {
-      const handrank = this._hand.getHandRank();
-      this.credits += Payout[handrank];
-      this._winDisplay?.setWin(Payout[handrank]);
-      this._dealDisplay?.setGameState(GameState.Deal);
+      this._dealDisplay?.setDeal();
       this._rankDisplay?.setRank(handrank);
 
       for (let i = 0; i < 5; i++) {
         this._cards[i]?.setHoldable(false);
+      }
+
+      if (handrank !== HandRank.Loss) {
+        this._bellSound?.play();
       }
     }
   }
@@ -98,7 +92,6 @@ class JacksOrBetter extends Phaser.Scene {
   public handleHoldCard(index: number) {
     if (this._cards) {
       this._cards[index].isHeld = true;
-      this._dealDisplay?.setGameState(GameState.Draw);
     }
   }
 
@@ -106,10 +99,6 @@ class JacksOrBetter extends Phaser.Scene {
     if (this._cards) {
       this._cards[index].isHeld = false;
     }
-  }
-
-  public handleSkip() {
-    this._gameState = GameState.Betting;
   }
 
   create() {
@@ -128,22 +117,20 @@ class JacksOrBetter extends Phaser.Scene {
         this.handleHoldCard.bind(this),
         this.handleDropCard.bind(this)
       );
-
       this._cards.push(cardComponent);
     }
 
-    this._winDisplay = new WinDisplay(this, 120, 370);
-    this._betDisplay = new BetDisplay(this, 260, 370);
-    this._creditsDisplay = new CreditsDisplay(this, 470, 370, this._credits);
-    this._rankDisplay = new RankDisplay(this, 400, 315);
-
+    this._bellSound = this.sound.add("bell") as Phaser.Sound.WebAudioSound;
+    this._rankDisplay = new RankDisplay(this, 400, 255);
+    this._winDisplay = new WinDisplay(this, 120, 320);
+    this._betDisplay = new BetDisplay(this, 260, 320);
+    this._creditsDisplay = new CreditsDisplay(this, 470, 320, this._credits);
     this._dealDisplay = new DealDisplay(
       this,
       680,
-      370,
+      320,
       this.handleDealCards.bind(this),
-      this.handleDrawCards.bind(this),
-      this.handlePass.bind(this)
+      this.handleDrawCards.bind(this)
     );
   }
 }
@@ -151,7 +138,7 @@ class JacksOrBetter extends Phaser.Scene {
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
   width: 800,
-  height: 400,
+  height: 350,
   scene: [JacksOrBetter],
   pixelArt: true,
   backgroundColor: "#0412a6",

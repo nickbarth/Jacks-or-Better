@@ -3,20 +3,13 @@ export const HOLD_BUTTON_SPRITESHEET = "hold_button";
 export const DROP_BUTTON_SPRITESHEET = "drop_button";
 export const DEAL_BUTTON_SPRITESHEET = "deal_button";
 export const DRAW_BUTTON_SPRITESHEET = "draw_button";
-export const PASS_BUTTON_SPRITESHEET = "pass_button";
 
 export const CARD_SIZE = { frameWidth: 125, frameHeight: 182 };
 export const CARD_SPRITESHEET = "cards";
 export const CARD_BACK_IMAGE = "cardback";
 
+export const BELL_SOUND = "bell";
 export const CLICK_SOUND = "click";
-
-export enum GameState {
-  Betting,
-  Deal,
-  Draw,
-  Pass,
-}
 
 export enum HandRank {
   RoyalFlush = "ROYAL FLUSH",
@@ -28,7 +21,7 @@ export enum HandRank {
   ThreeOfAKind = "THREE OF A KIND",
   TwoPair = "TWO PAIR",
   JacksOrBetter = "JACK OR BETTER",
-  Lose = "",
+  Loss = "",
 }
 
 export const Payout = {
@@ -41,8 +34,8 @@ export const Payout = {
   [HandRank.ThreeOfAKind]: 15,
   [HandRank.TwoPair]: 10,
   [HandRank.JacksOrBetter]: 5,
-  [HandRank.Lose]: 0,
-}
+  [HandRank.Loss]: 0,
+};
 
 export enum Suit {
   Spades,

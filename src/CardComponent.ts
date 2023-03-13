@@ -38,20 +38,20 @@ export class CardComponent extends GameObjects.Container {
     this._holdButton = new Button(
       scene,
       x + 60,
-      y + 260,
+      y + 250,
       HOLD_BUTTON_SPRITESHEET,
       () => this._handleHold(this._index)
     );
     this._dropButton = new Button(
       scene,
       x + 60,
-      y + 260,
+      y + 250,
       DROP_BUTTON_SPRITESHEET,
       () => this._handleDrop(this._index)
     );
     scene.add.existing(this._holdButton);
     scene.add.existing(this._dropButton);
-    this._holdButton.visible = false;
+    this._holdButton.visible = true;
     this._dropButton.visible = false;
   }
 
