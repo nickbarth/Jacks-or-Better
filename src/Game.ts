@@ -53,9 +53,9 @@ class JacksOrBetter extends Phaser.Scene {
     for (let i = 0; i < 5; i++) {
       const card = this._deck.draw();
       this._hand.addCard(card);
-      if (this._cards) {
-        this._cards[i]?.setCard(card.frame);
-        this._cards[i]?.setHoldable(true);
+      if (this._cards && this._cards[i]) {
+        this._cards[i].setCard(card.frame);
+        this._cards[i].setHoldable(true);
       }
     }
 
@@ -65,27 +65,30 @@ class JacksOrBetter extends Phaser.Scene {
   }
 
   public handleDrawCards() {
-    if (this._cards && this._hand && this._deck) {
-      for (let i = 0; i < 5; i++) {
-        if (!this._cards[i].isHeld) {
-          const card = this._deck.draw();
-          this._hand.replaceCard(i, card);
-          this._cards[i].setCard(card.frame);
-        }
-      }
-      const handrank = this._hand.getHandRank();
-      this.credits += Payout[handrank];
-      this._winDisplay?.setWin(Payout[handrank]);
-      this._dealDisplay?.setDeal();
-      this._rankDisplay?.setRank(handrank);
+    if (!this._cards || !this._hand || !this._deck) {
+      return;
+    }
 
-      for (let i = 0; i < 5; i++) {
-        this._cards[i]?.setHoldable(false);
+    for (let i = 0; i < 5; i++) {
+      if (!this._cards[i].isHeld) {
+        const card = this._deck.draw();
+        this._hand.replaceCard(i, card);
+        this._cards[i].setCard(card.frame);
       }
+    }
 
-      if (handrank !== HandRank.Loss) {
-        this._bellSound?.play();
-      }
+    const handrank = this._hand.getHandRank();
+    this.credits += Payout[handrank];
+    this._winDisplay?.setWin(Payout[handrank]);
+    this._dealDisplay?.setDeal();
+    this._rankDisplay?.setRank(handrank);
+
+    for (let i = 0; i < 5; i++) {
+      this._cards[i]?.setHoldable(false);
+    }
+
+    if (handrank !== HandRank.Loss) {
+      this._bellSound?.play();
     }
   }
 
