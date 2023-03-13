@@ -47,15 +47,18 @@ export class Hand {
       return HandRank.ThreeOfAKind;
     } else if (pairs.length === 2) {
       return HandRank.TwoPair;
-    } else if (pairs.length === 1 && (pairs[0] >= 11 || pairs[0] === 0)) {
+    } else if (
+      pairs.length === 1 &&
+      (pairs[0] >= Face.Jack || pairs[0] === Face.Ace)
+    ) {
       return HandRank.JacksOrBetter;
     } else {
       return HandRank.Loss;
     }
   }
 
-  private getCardCounts(): Map<number, number> {
-    const counts = new Map<number, number>();
+  private getCardCounts(): Map<Face, number> {
+    const counts = new Map<Face, number>();
     for (const card of this.cards) {
       const face = card.face;
       const count = counts.get(face) || 0;
@@ -64,7 +67,7 @@ export class Hand {
     return counts;
   }
 
-  private getPairs(counts: Map<number, number>): number[] {
+  private getPairs(counts: Map<Face, number>): number[] {
     const pairs: number[] = [];
     for (const [face, count] of counts.entries()) {
       if (count === 2) {
@@ -74,7 +77,7 @@ export class Hand {
     return pairs;
   }
 
-  private getThreeOfAKind(counts: Map<number, number>): boolean {
+  private getThreeOfAKind(counts: Map<Face, number>): boolean {
     for (const count of counts.values()) {
       if (count === 3) {
         return true;
@@ -115,7 +118,7 @@ export class Hand {
     return suits.every((suit) => suit === suits[0]);
   }
 
-  private getFullHouse(counts: Map<number, number>): boolean {
+  private getFullHouse(counts: Map<Face, number>): boolean {
     let hasPair = false;
     let hasThreeOfAKind = false;
     for (const count of counts.values()) {
@@ -128,7 +131,7 @@ export class Hand {
     return hasPair && hasThreeOfAKind;
   }
 
-  private getFourOfAKind(counts: Map<number, number>): boolean {
+  private getFourOfAKind(counts: Map<Face, number>): boolean {
     for (const count of counts.values()) {
       if (count === 4) {
         return true;
