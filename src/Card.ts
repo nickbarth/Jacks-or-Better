@@ -20,19 +20,4 @@ export class Card {
   public get frame(): number {
     return this._face + this._suit * 13;
   }
-
-  public get value(): number {
-    switch (this._face) {
-      case Face.Ace:
-        return 14;
-      case Face.King:
-        return 13;
-      case Face.Queen:
-        return 12;
-      case Face.Jack:
-        return 11;
-      default:
-        return this._face;
-    }
-  }
 }
